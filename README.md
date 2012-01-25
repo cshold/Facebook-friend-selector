@@ -55,3 +55,15 @@ Just edit `example.js` and set your Facebook `appId`.
 		selector1.showFriendSelector();
 	});
 
+### Pre-select Friends
+
+You can set pre-selected friends with setPreSelectedFriendIds method. See example.js for more details. 
+
+	$("#btnSelect1").click(function (e) {
+		e.preventDefault();
+		selector1.setPreSelectedFriendIds("111111,222222");
+		selector1.showFriendSelector();
+	});
+
+
+
