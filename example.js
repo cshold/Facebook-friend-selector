@@ -83,7 +83,11 @@ window.fbAsyncInit = function () {
 
 		$("#btnSelect1").click(function (e) {
 			e.preventDefault();
+			//selector1.setPreSelectedFriendIds("111111,222222");
+			selector1.setPreSelectedFriendIds($("#btnSelect1").attr('preSelected'));
 			selector1.showFriendSelector();
+			// clear not to apply preSelected again when user show/hide FriendSelector multiple times.
+			$("#btnSelect1").attr('preSelected',''); 
 		});
 
 		$("#btnSelect2").click(function (e) {

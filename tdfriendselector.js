@@ -106,10 +106,10 @@ var TDFriendSelector = (function(module, $) {
 	 */
 	newInstance = function(options) {
 		// Public functions
-		var showFriendSelector, hideFriendSelector, getselectedFriendIds, setDisabledFriendIds, filterFriends, reset,
+		var showFriendSelector, hideFriendSelector, getselectedFriendIds, setDisabledFriendIds, filterFriends, reset, setPreSelectedFriendIds,
 
 		// Private variables
-		instanceSettings, selectedFriendIds = [], disabledFriendIds = [], numFilteredFriends = 0,
+		instanceSettings, selectedFriendIds = [], disabledFriendIds = [], numFilteredFriends = 0, preSelectedFriendIds = [], 
 
 		// Private functions
 		bindEvents, unbindEvents, updateFriendsContainer, updatePaginationButtons, selectFriend;
@@ -150,9 +150,13 @@ var TDFriendSelector = (function(module, $) {
 				});
 			} else {
 				bindEvents();
+
 				// Update classnames to represent the selections for this instance
 				$friends.removeClass(settings.friendSelectedClass + ' ' + settings.friendDisabledClass + ' ' + settings.friendFilteredClass);
 				for (i = 0, len = friends.length; i < len; i += 1) {
+					if ($.inArray(friends[i].id, preSelectedFriendIds) !== -1) {
+						selectedFriendIds.push(friends[i].id);
+					}
 					if ($.inArray(friends[i].id, selectedFriendIds) !== -1) {
 						$($friends[i]).addClass(settings.friendSelectedClass);
 					}
@@ -160,6 +164,8 @@ var TDFriendSelector = (function(module, $) {
 						$($friends[i]).addClass(settings.friendDisabledClass);
 					}
 				}
+				// Reset
+				preSelectedFriendIds = [];
 				// Reset filtering
 				numFilteredFriends = 0;
 				$searchField.val("");
@@ -225,6 +231,12 @@ var TDFriendSelector = (function(module, $) {
 			numFilteredFriends = 0;
 			$searchField.val("");
 			updatePaginationButtons(1);
+		};
+
+		setPreSelectedFriendIds = function(input) {
+			if(input && input.length > 0){
+				preSelectedFriendIds = input.split(',');
+			}
 		};
 
 		/////////////////////////////////////////
@@ -382,7 +394,8 @@ var TDFriendSelector = (function(module, $) {
 			getselectedFriendIds : getselectedFriendIds,
 			setDisabledFriendIds : setDisabledFriendIds,
 			filterFriends        : filterFriends,
-			reset                : reset
+			reset                : reset,
+			setPreSelectedFriendIds : setPreSelectedFriendIds
 		};
 	};
 
